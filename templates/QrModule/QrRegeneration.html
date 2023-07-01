@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+{% block Content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'dist/css/requirement.css' %}">
+
+
+
+{% if original_qr_code %}
+        <h2>Original QR Code:</h2>
+        <p>{{ original_qr_code }}</p>
+    {% endif %}
+
+    <button id="scanButton">Scan QR Code</button>
+
+    <div id="qrCodeScanner" style="display:none;"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.1/instascan.min.js">
+
+        // Initialize Instascan scanner
+        let scanner = new Instascan.Scanner({ video: document.getElementById('qrCodeScanner') });
+
+        // Function to handle successful QR code scan
+        scanner.addListener('scan', function(content) {
+            // Populate the hidden input field with the scanned data
+            document.getElementById('qrCodeDataInput').value = content;
+
+            // Submit the form
+            document.getElementById('qrCodeForm').submit();
+        });
+
+        // Bind click event to the scan button
+        document.getElementById('scanButton').addEventListener('click', function() {
+            // Show the QR code scanner
+            document.getElementById('qrCodeScanner').style.display = 'block';
+
+            // Start scanning
+            Instascan.Camera.getCameras().then(function(cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    console.error('No cameras found.');
+                }
+            });
+        });
+    </script>
+
+    <form id="qrCodeForm" method="POST">
+        {% csrf_token %}
+        <input id="qrCodeDataInput" type="hidden" name="qr_code_data">
+    </form>
+
+    {% if new_qr_code_data %}
+        <h2>New QR Code Data:</h2>
+        <p>{{ new_qr_code_data }}</p>
+
+        <h2>New QR Code:</h2>
+        <img src="{{ new_qr_code_data }}" alt="New QR Code">
+    {% endif %}
+
+{% endblock Content %}
+

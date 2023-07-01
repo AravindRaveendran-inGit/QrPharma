@@ -1,0 +1,37 @@
+.navbar-inverse{
+    background-color: #fff;
+    border-color: #b71b2f;
+    border-radius: 0px;
+    border-style:none;
+   height: 110px;
+   padding-top: 30px
+}
+
+.kims-logo{
+    font-size: 25px;
+    font-weight: bold;
+    color: #b71b2f;
+}
+
+.requirement{
+    margin-left: 15px;
+    font-size: 30px;
+}
+
+.glyphicon{
+    color: #b71b2f;
+}
+
+.navbar-nav{
+
+margin-top: 10px;
+
+}
+.action{
+margin-left: 10px;
+color: #b71b2f;
+font-size: 15px;
+}
+.user-actions-keys{
+float:right;
+}

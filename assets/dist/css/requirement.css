@@ -1,0 +1,150 @@
+body {
+  color: #666;
+  background-color: #f1f2f2;
+  font: 16px/26px "Raleway", sans-serif; }
+
+table tr th{
+  background:#b71b2f;
+  color:white;
+  text-align:left;
+  vertical-align:center;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #b71b2f;
+    border-color: #fff;
+    border-style: none;
+}
+.user-space{
+margin-left:5px;
+}
+.new-req{
+background-color:#fff;
+color:#b71b2f;
+}
+
+.new-req:hover{
+text-decoration:none;
+color: #c53d4e;
+
+}
+
+
+
+.mail-tittle {
+
+  margin-left: 50px;
+}
+
+.mail-body {
+  padding: 50px;
+  background-color: white;
+}
+
+.imagen {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.footer-mail {
+  margin: 50px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex p {
+  margin-left: 30px;
+}
+.go-back {
+  background: none;
+  border: solid 2px #b71b2f;;
+  color: #b71b2f;;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration:none;
+  underline:
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-size: 0.875em;
+  font-weight: bold;
+  outline: none;
+  padding: 20px 35px;
+    margin-left: 25px;
+  -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-ms-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.go-back:hover {
+  background: #b71b2f;;
+  color: #F2F3EB;
+}
+a{
+text-decoration: none !important;
+}
+
+.download{
+    background: none;
+  border: solid 2px #b71b2f;;
+  color: #b71b2f;;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration:none;
+  underline:
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-size: 0.875em;
+  font-weight: bold;
+  outline: none;
+  padding: 5px 12px;
+  -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-ms-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+.download:hover {
+  background: #b71b2f;;
+  color: #F2F3EB;
+}
+
+.more{
+    margin-top:5px;
+}
+
+.panel-heading {
+    padding: 0px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.panel-body {
+    padding: 5px;
+    margin-top: -120px;
+}
+
+#example1_filter{
+
+    padding-left: 290px;
+}
+
+#example1_filter {
+    padding-left: 290px;
+    margin-top: 15px;
+}
+
+#example2_filter{
+
+    margin-top: 10px;
+    margin-left: 80px;
+    padding-left: 200px;
+}
+
+}
