@@ -1,0 +1,16 @@
+annotated-types==0.5.0
+asgiref==3.7.2
+barcode==1.0.2
+Django==4.2.2
+django-qr-code==3.1.1
+django-qrcode==0.3
+Levenshtein==0.21.1
+pydantic==2.0
+pydantic_core==2.0.1
+python-Levenshtein==0.21.1
+pytz==2023.3
+rapidfuzz==3.1.1
+segno==1.5.2
+sqlparse==0.4.4
+typing_extensions==4.7.0
+tzdata==2023.3
