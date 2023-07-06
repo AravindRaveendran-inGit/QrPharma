@@ -1,34 +1,26 @@
-# from django.shortcuts import render
-#
-# # Create your views here.
-#
-#
-# def QrView(request):
-#     return render(request, 'QrModule/QrRegeneration.html')
-
-
+import base64
 import qrcode
+from io import BytesIO
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from barcode import *
+from django.http import JsonResponse
 
-
-@csrf_exempt
-def qr_codeView(request):
-    if request.method == 'POST':
-        # Get the scanned QR code data from the request
-        qr_code_data = request.POST['qr_code_data']
-
-        # Generate a new QR code with the scanned data
-        qr = qrcode.QRCode()
-        qr.add_data(qr_code_data)
-        qr.make(fit=True)
-        qr_code_image = qr.make_image()
-
-        # Render the HTML page with the original and new QR codes
-        return render(request, 'qr_code.html', {
-            'original_qr_code': qr_code_data,
-            'new_qr_code_data': qr_code_data,
-        })
-
+def QrView(request):
     return render(request, 'QrModule/QrRegeneration.html')
+
+# def generate_qr_image(request):
+#     data = request.POST.get('data')
+#     if data:
+#         # Generate QR code image
+#         qr = qrcode.QRCode()
+#         qr.add_data(data)
+#         qr.make(fit=True)
+#         qr_image = qr.make_image(fill_color="black", back_color="white")
+#
+#         # Convert QR code image to base64
+#         buffer = BytesIO()
+#         qr_image.save(buffer, format='PNG')
+#         qr_image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+#
+#         return JsonResponse({'qr_image_base64': qr_image_base64})
+#
+#     return JsonResponse({'error': 'No data provided'})

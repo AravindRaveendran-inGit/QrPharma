@@ -3,62 +3,106 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'dist/css/requirement.css' %}">
 
+   <title>QR Scan</title>
+  <script src="{% static 'dist/js/zxing.js' %}"></script>
+  <script src="{% static 'dist/js/qrcode.min.js' %}"></script>
 
 
-{% if original_qr_code %}
-        <h2>Original QR Code:</h2>
-        <p>{{ original_qr_code }}</p>
-    {% endif %}
+    <h1>Scan QR Code</h1>
+<button id="add-item-button">Add Item</button>
+    <div id="item-container"></div>
 
-    <button id="scanButton">Scan QR Code</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const codeReader = new ZXing.BrowserQRCodeReader();
+            const itemContainer = document.getElementById('item-container');
+            let mediaStreamTracks = [];
 
-    <div id="qrCodeScanner" style="display:none;"></div>
+            function createItem() {
+                const itemDiv = document.createElement('div');
+                const itemIndex = itemContainer.children.length + 1;
+                itemDiv.setAttribute('id', 'item-' + itemIndex);
 
+                const inputField = document.createElement('input');
+                inputField.setAttribute('type', 'text');
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/2.0.0-rc.2/dist/index.js">
+                const scanButton = document.createElement('button');
+                scanButton.textContent = 'Scan QR Code';
+                scanButton.addEventListener('click', function() {
+                    startScanning(itemIndex);
+                });
 
+                const qrImage = document.createElement('div');
+                qrImage.setAttribute('id', 'qr-image-' + itemIndex);
 
+                itemDiv.appendChild(inputField);
+                itemDiv.appendChild(scanButton);
+                itemDiv.appendChild(qrImage);
 
-        // Initialize Instascan scanner
-        let scanner = new Instascan.Scanner({ video: document.getElementById('qrCodeScanner') });
+                itemContainer.appendChild(itemDiv);
+            }
 
-        // Function to handle successful QR code scan
-        scanner.addListener('scan', function(content) {
-            // Populate the hidden input field with the scanned data
-            document.getElementById('qrCodeDataInput').value = content;
+            function startScanning(itemIndex) {
+                const video = document.createElement('video');
+                video.setAttribute('id', 'video-' + itemIndex);
 
-            // Submit the form
-            document.getElementById('qrCodeForm').submit();
-        });
+                codeReader.decodeFromVideoDevice(undefined, 'video-' + itemIndex, (result, err) => {
+                    if (result) {
+                        const qrImage = document.getElementById('qr-image-' + itemIndex);
+                        qrImage.innerHTML = '';
+                        const qr = new QRCode(qrImage, {
+                            text: result.text,
+                            width: 75,
+                            height: 75
+                        });
+                        stopScanning(itemIndex);
+                    }
+                    if (err && !(err instanceof ZXing.NotFoundException)) {
+                        console.error(err);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
 
-        // Bind click event to the scan button
-        document.getElementById('scanButton').addEventListener('click', function() {
-            // Show the QR code scanner
-            document.getElementById('qrCodeScanner').style.display = 'block';
+                const previewElement = document.getElementById('item-' + itemIndex);
+                previewElement.appendChild(video);
+                startCamera('video-' + itemIndex)
+                    .then(stream => {
+                        video.srcObject = stream;
+                        mediaStreamTracks[itemIndex] = stream.getTracks()[0];
+                    })
+                    .catch(error => {
+                        console.error('Error starting camera:', error);
+                    });
+            }
 
-            // Start scanning
-            Instascan.Camera.getCameras().then(function(cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
+            function startCamera(videoElementId) {
+                return navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        return new Promise(resolve => {
+                            const video = document.getElementById(videoElementId);
+                            video.onloadedmetadata = () => {
+                                resolve(stream);
+                            };
+                            video.srcObject = stream;
+                            video.play();
+                        });
+                    });
+            }
+
+            function stopScanning(itemIndex) {
+                if (mediaStreamTracks[itemIndex]) {
+                    mediaStreamTracks[itemIndex].stop();
                 }
-            });
+                const videoElement = document.getElementById('video-' + itemIndex);
+                if (videoElement) {
+                    videoElement.parentNode.removeChild(videoElement);
+                }
+            }
+
+            const addItemButton = document.getElementById('add-item-button');
+            addItemButton.addEventListener('click', createItem);
         });
     </script>
-
-    <form id="qrCodeForm" method="POST">
-        {% csrf_token %}
-        <input id="qrCodeDataInput" type="hidden" name="qr_code_data">
-    </form>
-
-    {% if new_qr_code_data %}
-        <h2>New QR Code Data:</h2>
-        <p>{{ new_qr_code_data }}</p>
-
-        <h2>New QR Code:</h2>
-        <img src="{{ new_qr_code_data }}" alt="New QR Code">
-    {% endif %}
-
-{% endblock Content %}
-
+    {% endblock Content %}
