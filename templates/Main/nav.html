@@ -1,0 +1,29 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'dist/css/nav.css' %}">
+
+
+
+<nav>
+    <div class="logo">
+        <div class="logo-org"><img src="{% static  'dist/img/logo1.png'%}" width="50px" alt=""></div>
+        <a href="" class="navbar-brand"><span class="kims-logo">KIMS Pharma Runner</span></a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="{% url 'With_Indent_view' %}">With Indent</a></li>
+        |
+        <li><a href="#">Without Indent</a></li>
+        |
+        <li><a href="#">Against Bill</a></li>
+    </ul>
+    <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+    </div>
+</nav>
+
+
+<script src="{% static 'dist/js/nav.js' %}"></script>
+
+

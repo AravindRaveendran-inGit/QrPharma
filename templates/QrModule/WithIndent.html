@@ -4,17 +4,53 @@
 <link rel="stylesheet" href="{% static 'dist/css/requirement.css' %}">
 
 
-  <script src="{% static 'dist/js/zxing.js' %}"></script>
-  <script src="{% static 'dist/js/qrcode.min.js' %}"></script>
+<script src="{% static 'dist/js/zxing.js' %}"></script>
+<script src="{% static 'dist/js/qrcode.min.js' %}"></script>
+<form action="{% url 'With_Indent_view' %}" method="POST" class="search-wrapper cf">
+    {% csrf_token %}
+    <div class="wrap">
+        <div class="search">
 
+            <input type="text" class="searchTerm" maxlength="25" autocapitalize="characters" autocomplete="indent_no"
+                   autofocus="" required="" name="indent_no" id="indent_no" placeholder="Indent# :">
+            <span class="tooltiptext">Indent number</span>
+            <button type="submit" class="searchButton">
 
-    <h1>Scan QR Code</h1>
-<button id="add-item-button">Add Item</button>
-    <div id="item-container"></div>
-{% endblock content %}
-{% block scripts %}
+                <i class="fa fa-search"></i>
 
-    <script>
+            </button>
+
+        </div>
+    </div>
+
+</form>
+<div class="table-wrapper">
+    <table class="fl-table" id="example">
+        <thead>
+        <tr>
+            <th>Item Description</th>
+            <th>Indent Qty</th>
+            <th>Issue Qty</th>
+            <th>Batch Number</th>
+            <th>Batch Number</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in result %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+            <td><input type="number" required class="issue-qty-input"></td>
+            <td>{{ row.3 }}</td>
+            <td></td>
+
+        </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+</div>
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             const codeReader = new ZXing.BrowserQRCodeReader();
             const itemContainer = document.getElementById('item-container');
@@ -106,5 +142,26 @@
             const addItemButton = document.getElementById('add-item-button');
             addItemButton.addEventListener('click', createItem);
         });
-    </script>
- {% endblock scripts %}
+
+
+</script>
+
+{% endblock content %}
+{% block scripts %}
+<script>
+// Get all the input elements with the specified class
+    const issueQtyInputs = document.querySelectorAll('.issue-qty-input');
+
+    // Add an event listener to each input field
+    issueQtyInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            const value = this.value; // Get the entered value
+            const row = this.parentNode.parentNode; // Get the parent row of the input field
+            const populatedValueCell = row.querySelector('td:nth-child(3)'); // Select the last td element in the row
+
+            populatedValueCell.textContent = value; // Set the entered value in the populated value cell
+        });
+    });
+
+</script>
+{% endblock scripts %}

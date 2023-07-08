@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="{% static 'dist/img/logo1.png' %}" type="image/icon type">
+    <link rel="stylesheet" href="{% static 'dist/css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/buttons.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/responsive.bootstrap4.min.css' %}">
+    <title>Pharma Runner | KIMSHEALTH</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
+
+
+
+</head>
+<body>
+{% include 'main/nav.html' %}
+
+    {% block content %}
+    {% endblock content %}
+
+
+
+
+</body>
+
+<script src="{% static 'dist/js/jquery.min.js' %}"></script>
+<script src="{% static 'dist/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'dist/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'dist/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'dist/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'dist/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'dist/js/jszip.min.js' %}"></script>
+<script src="{% static 'dist/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'dist/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'dist/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'dist/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'dist/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'dist/js/dataTables.responsive.min.js' %}"></script>
+
+
+<script>
+
+    $(document).ready(function() {
+	    var table = $('#example').DataTable( {
+	        'paging'      : false,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : false,
+            'info'        : false,
+            'autoWidth'   : false,
+	        buttons: [ 'pdf', 'print' ]
+	    } );
+
+	    table.buttons().container()
+	        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+	} );
+
+     </script>
+
+
+    {% block scripts %}
+    {% endblock scripts %}
+</html>
